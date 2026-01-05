@@ -12,7 +12,6 @@ class FileProcessingResult:
     success: bool
     message: str
     dataframe: Optional[pd.DataFrame] = None
-    chunks_processed: int = 0  # Novo campo para contar chunks
 
 class ExcelFileHandler:
     """Handler para processamento de arquivos Excel com prefixo específico.
