@@ -89,8 +89,8 @@ class ExcelFileHandler:
         files = list(self.directory.glob(search_pattern))
 
         if not files:
-            self.logger.error(f"Nenhum arquivo encontrado com o prefixo: {self.prefix}")
-            raise FileNotFoundError(f"Nenhum arquivo com prefixo {self.prefix} encontrado em {self.directory}")
+            self.logger.error(f"❌ Nenhum arquivo encontrado com o prefixo: {self.prefix}")
+            raise FileNotFoundError(f"❌ Nenhum arquivo com prefixo {self.prefix} encontrado em {self.directory}")
         
         return max(files, key=lambda f: f.stat().st_mtime)
     
@@ -115,7 +115,7 @@ class ExcelFileHandler:
             match = re.search(r'(\d{6}_\d{4})', file_name)
 
             if not match:
-                raise ValueError(f"Padrão de data não encontrado em: {file_name}")
+                raise ValueError(f"❌ Padrão de data não encontrado em: {file_name}")
             
             datetime_str = match.group(1)
             dt_obj = datetime.strptime(datetime_str, self.DATETIME_FORMAT)
@@ -123,7 +123,7 @@ class ExcelFileHandler:
             return(dt_obj.strftime(self.DISPLAY_DATE_FORMAT), dt_obj.strftime(self.DISPLAY_DATETIME_FORMAT))
 
         except Exception as e:
-            self.logger.error(f"Erro na extração: {e}")
+            self.logger.error(f"❌ Erro na extração: {e}")
             raise   
     
     def _process_dataframe(self, df: pd.DataFrame, file_path: Path) -> pd.DataFrame:
@@ -183,7 +183,7 @@ class ExcelFileHandler:
 
             processed_df = self._process_dataframe(df, file_path)
 
-            self.logger.info("Arquivo Excel processado com sucesso.")
+            self.logger.info("✅ Arquivo Excel processado com sucesso.")
             
             return FileProcessingResult(success=True, message="Arquivo processado com sucesso", dataframe=processed_df)
         
@@ -205,7 +205,7 @@ class ExcelFileHandler:
             return self. _load_to_dataframe(target_path)
 
         except Exception as e:
-            self.logger.error(f"Erro ao processar arquivo mais recente: {e}")
+            self.logger.error(f"❌ Erro ao processar arquivo mais recente: {e}")
             return FileProcessingResult(success=False, message=f"Erro ao processar arquivo mais recente: {str(e)}")
 
     def delete_most_recent_file(self, file_path) -> bool:
@@ -218,9 +218,9 @@ class ExcelFileHandler:
             # Se o orquestrador já possui o caminho, usa ele. Do contrário, busca no disco (fallback).
             target_path = file_path if file_path else self._find_most_recent_file()
             target_path.unlink()
-            self.logger.info(f"Arquivo removido com sucesso: {file_path}")
+            self.logger.info(f"✅ Arquivo removido com sucesso: {file_path}")
             return True
 
         except Exception as e:
-            self.logger.error(f"Erro ao remover arquivo: {e}")
+            self.logger.error(f"❌ Erro ao remover arquivo: {e}")
             return False                                    
