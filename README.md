@@ -212,3 +212,4 @@ Esta pipeline transforma um processo manual e propenso a erros em um fluxo autom
 - **Logs**: Arquivo único com rotação manual
 - **Monitoramento**: Via logs e códigos de saída
 - **Escalabilidade**: Projetado para aumentar volume sem reestruturação
+
